@@ -8,3 +8,27 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 // Check if working
 console.log(process.env);
+
+// Initialize express app and port
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Use morgan to log all requests to the console
+app.use(morgan('dev'));
+
+// Use middlewares: CORS / built-in body-parser
+app.use(cors());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+// Default route to check if working
+app.get('/', (req, res, next) => {
+    res.status(200).json({
+        message: 'This is the GET / route'
+    });
+});
+
+// Start up server
+app.listen(PORT, () => {
+    console.log(`>>> Server now on port ${PORT}`);
+});
