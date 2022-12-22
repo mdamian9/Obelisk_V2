@@ -6,8 +6,6 @@ const mongoose = require('mongoose');
 
 // Require dotenv to load environment variables
 require('dotenv').config();
-// Check if working
-console.log(process.env);
 
 // Initialize express app and port
 const app = express();
@@ -20,6 +18,12 @@ app.use(morgan('dev'));
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+// Initialize API routes
+const usersRouter = require('./api/routes/users.router');
+
+// Use API routes
+app.use('/users', usersRouter);
 
 // Default route to check if working
 app.get('/', (req, res, next) => {
