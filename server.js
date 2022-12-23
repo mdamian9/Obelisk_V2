@@ -3,24 +3,22 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-
 // Require dotenv to load environment variables
 require('dotenv').config();
+// Import API routes
+const usersRouter = require('./api/routes/users.router');
 
 // Initialize express app and port
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Use morgan to log all requests to the console
+// Set up middlewares: CORS / built-in body-parser, use morgan to log all requests to the console
 app.use(morgan('dev'));
-
-// Use middlewares: CORS / built-in body-parser
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-// Initialize API routes
-const usersRouter = require('./api/routes/users.router');
+// Connect to MongoDB
 
 // Use API routes
 app.use('/users', usersRouter);
