@@ -3,10 +3,12 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+
 // Require dotenv to load environment variables
 require('dotenv').config();
+
 // Import API routes
-const usersRouter = require('./api/routes/users.router');
+const indexRouter = require('./api/routes/index.router');
 
 // Initialize express app and port
 const app = express();
@@ -18,17 +20,19 @@ app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+// Supress strictQuery deprecation warning
+mongoose.set('strictQuery', true);
 // Connect to MongoDB
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true }).catch(err => {
+    console.log(err);
+});
+
+mongoose.connection.once('open', () => {
+    console.log(">>> Connected to MongoDB successfully");
+});
 
 // Use API routes
-app.use('/users', usersRouter);
-
-// Default route to check if working
-app.get('/', (req, res, next) => {
-    res.status(200).json({
-        message: 'This is the GET / route'
-    });
-});
+app.use('/', indexRouter);
 
 // Start up server
 app.listen(PORT, () => {
