@@ -1,8 +1,9 @@
-// Require Express, CORS, Mongoose, and Morgan
+// Require Express, CORS, Mongoose, Morgan, path
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+const path = require('path');
 
 // Require dotenv to load environment variables
 require('dotenv').config();
@@ -12,7 +13,7 @@ const indexRouter = require('./api/routes/index.router');
 
 // Initialize express app and port
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 // Set up middlewares: CORS / built-in body-parser, use morgan to log all requests to the console
 app.use(morgan('dev'));
@@ -33,6 +34,17 @@ mongoose.connection.once('open', () => {
 
 // Use API routes
 app.use('/', indexRouter);
+
+// Serve up static assets
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static('client/build'));
+};
+
+// Send every request to the React app
+// Define any API routes before this runs
+app.get('*', (req, res, next) => {
+    res.sendFile(path.join(__dirname, './client/build/index.html'));
+});
 
 // Start up server
 app.listen(PORT, () => {

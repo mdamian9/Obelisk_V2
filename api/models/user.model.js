@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
 });
 
 // Hash user password before saving to database
-userSchema.pre('save', function(callback) {
+userSchema.pre('save', function (callback) {
     let user = this;
     // Break out if password hasn't changed
     if (!user.isModified('password')) return callback();
@@ -40,7 +40,7 @@ userSchema.pre('save', function(callback) {
     });
 });
 
-// verifyPassword method for user
+// Create verifyPassword method for user
 userSchema.methods.verifyPassword = (password, callback) => {
     bcrypt.compare(password, this.password, (err, isMatch) => {
         if (err) return callback(err);
