@@ -39,4 +39,8 @@ router.post('/signup', (req, res, next) => {
 
 });
 
+router.post('/positions', (req, res, next) => {
+
+});
+
 module.exports = router;
