@@ -1,3 +1,5 @@
+import React, { Component } from 'react';
+import LandingPage from './components/LandingPage/LandingPage';
 import logo from './logo.svg';
 import './App.css';
 
@@ -21,5 +23,13 @@ function App() {
     </div>
   );
 }
+
+// class App extends Component {
+//   render = () => {
+//     return (
+//       <LandingPage />
+//     );
+//   };
+// };
 
 export default App;
