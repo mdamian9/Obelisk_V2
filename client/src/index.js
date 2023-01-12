@@ -7,16 +7,11 @@ import {
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './App';
-import LandingPage from './components/LandingPage/LandingPage';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />
-  },
-  {
-    path: '/landing',
-    element: <LandingPage />
   }
 ]);
 
